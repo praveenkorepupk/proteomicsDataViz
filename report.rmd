@@ -1,0 +1,1234 @@
+---
+title: "Olink Scout"
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: cosmo
+    highlight: tango
+    code_folding: hide
+params:
+  column_barplot1 : NA
+  column_piechart1 : NA
+  failed_samples : NA
+  qcPlot1 : NA
+  qcPlot2 : NA
+  qcPlot3 : NA
+  missingValuePlots1 : NA
+  missingValuePlots2 : NA
+  outlierDetection1 : NA
+  dimRedPlots1 : NA
+  hclust_plot1 : NA
+  pam_plot1 : NA
+  pca_plot1 : NA
+  scree_plot1 : NA
+  heatmap1_eda1 : NA
+  box_plot1 : NA
+  corel_plot1 : NA
+  heatmap_ttest1 : NA
+  volcanoplt_ttest1 : NA
+  bxplt1_ttest1 : NA
+  heatmap_Anova1 : NA
+  anovabxplt1_an : NA
+  heatmap_mwutest1 : NA
+  mwutbxplt1_mwut : NA
+  pls_imp1 : NA
+  pls_roc1 : NA
+  pls_text1 : NA
+  pls_cm_plot1 : NA
+  spls_roc1 : NA
+  spls_text1 : NA
+  spls_cm_plot1 : NA
+  spls_imp1 : NA
+  svm_text1 : NA
+  svm_cm_plot1 : NA
+  svm_roc1 : NA
+  svm_imp1 : NA
+  rf_text1 : NA
+  rf_cm_plot1 : NA
+  rf_roc1 : NA
+  rf_imp1 : NA
+  xgb_text1 : NA
+  xgb_cm_plot1 : NA
+  xgb_roc1 : NA
+  xgb_imp1 : NA
+  lmer_plot1 : NA
+  tca_heatmap1 : NA
+  dot_plot1 : NA
+  bw_plot1 : NA
+  dotplot_GSEA1 : NA
+  ridgeplot_GSEA1 : NA
+  dimRed_color_var : NA
+  dimRed_shape_var : NA
+  hclust_distMethod : NA
+  hclust_aggMethod : NA
+  PAM_distMethod : NA
+  pca_shape1 : NA
+  pca_color1 : NA
+  PC_11 : NA
+  PC_21 : NA
+  heatmapgroups1 : NA
+  heatmap_clust1 : NA
+  box_genenames1 : NA
+  box_group1 : NA
+  ttest_comparison_variable1 : NA
+  ttest_pair_id1 : NA
+  ttest_condition11 : NA
+  ttest_condition21 : NA
+  anova_comparison_variable1 : NA
+  anova_comparison_variable2 : NA
+  anova_covariate : NA
+  anova_pair_id : NA
+  type_of_mwu_test1 : NA
+  mwut_comparison_variable : NA
+  mwut_pair_id : NA
+  mwut_condition1 : NA
+  mwut_condition2 : NA
+  tca_var1 : NA
+  tca_rand1 : NA
+  tca_cov1 : NA
+  pls_column1 : NA
+  pls_perc1 : NA 
+  pls_fsel1 : NA 
+  spls_column1 : NA
+  spls_perc1 : NA 
+  spls_fsel1 : NA 
+  glmm_column1 : NA
+  glmm_perc1 : NA
+  glmm_fsel1 : NA
+  knn_column1 : NA
+  knn_perc1 : NA
+  knn_fsel1 : NA
+  svm_column1 : NA
+  svm_perc1 : NA
+  svm_fsel1 : NA
+  xgb_column1 : NA
+  xgb_perc1 : NA
+  xgb_fsel1 : NA
+  glmm_text1 : NA
+  glmm_cm_plot1 : NA
+  glmm_roc1 : NA
+  glmm_imp1 : NA
+  knn_text1 : NA
+  knn_cm_plot1 : NA
+  knn_roc1 : NA
+  knn_imp1 : NA
+  df_msg21 : NA
+  df_msg_FS1 : NA
+  df_msg_FI1 : NA
+  total_rows1 : NA
+  total_columns1 : NA
+  npx_format1 : NA
+  protein_counts1 : NA
+  sample_counts1 : NA
+  unMatchedSamplesOlink1 : NA
+  meta_rows1 : NA
+  meta_cols1 : NA
+  meta_format1 : NA
+  meta_cols_name1 : NA
+  unMatchedSamplesMeta1 : NA
+---
+
+```{r, echo = FALSE, warning=FALSE}
+HTML("<h2>Olink® Statistical Analysis app</h2>
+<p>Olink has extensive coverage of the plasma proteome and delivers high quality data for over 3k unique proteins. However, when it comes time to perform data analysis, this amount of data can be overwhelming. Therefore, Olink provides a web-based application for basic data visualizations and statistical analyses based around the same tools and methods used by the Olink Data Science team.</p>
+<p>With this app it is easy to:</p>
+<ul>
+<li>Import the data from Olink database</li>
+<li>Perform data analysis and visualization capabilities for Olink data analysis</li>
+<li>Generate Principal Component Analysis (PCA) plots</li>
+<li>Generate heatmaps</li>
+<li>Perform basic statistical analyses: t-test (2 groups), Analysis of Variance (ANOVA, 3+ groups)</li>
+<li>Download results/figures for more focused data analysis</li>
+</ul>")
+```             
+
+### Data Summary
+```{r, warning=FALSE}
+#Data summary
+summary_text <- paste(
+  "<br/>",
+  "&nbsp;",
+  "&nbsp;",
+  "&nbsp;",
+  "&nbsp;",
+  "&nbsp;",
+  "&nbsp;",
+  "<strong>Data Processing Information</strong>",
+  "<br/>",
+  "<br/>",
+  "&nbsp;",
+  "<strong>NPX Data:</strong",
+  "<br/>",
+  "<br/>",
+  "&nbsp;",
+  "1. Total number of rows: ", params$total_rows1,
+  "<br/>",
+  "&nbsp;",
+  "2. Total number of columns: ", params$total_columns1,
+  "<br/>",
+  "&nbsp;",
+  "3. Uploaded file format: ", params$npx_format1,
+  "<br/>",
+  "&nbsp;",
+  "4. Total proteins: ", params$protein_counts1,
+  "<br/>",
+  "&nbsp;",
+  "5. Total samples: ", params$sample_counts1,
+  "<br/>",
+  "&nbsp;",
+  "6. Unmatched samples: ", toString(params$unMatchedSamplesOlink1),
+  "<br/>",
+  "<br/>",
+  "&nbsp;",
+  "<strong>Meta Data:</strong",
+  "<br/>",
+  "<br/>",
+  "&nbsp;",
+  "1. Total number of rows: ", params$meta_rows1,
+  "<br/>",
+  "&nbsp;",
+  "2. Total number of features: ", params$meta_cols1, 
+  "<br/>",
+  "&nbsp;",
+  "3. Uploaded file format: ", params$meta_format1,
+  "<br/>",
+  "&nbsp;",
+  "4. Features Names: ", toString(params$meta_cols_name1),
+  "<br/>",
+  "&nbsp;",
+  "5. Unmatched samples: ", toString(params$unMatchedSamplesMeta1)
+)
+HTML(summary_text) 
+```      
+
+```{r, warning=FALSE}
+HTML("<h4>Sample Distribution</h4>")
+if(is.null(params$column_barplot1)){
+  print("You have not selected Sample Distribution")
+} else {
+  cat("Sample distribution of the dataset using metadata features.")
+  params$column_barplot1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Olink Statistics</h4>")
+if(is.null(params$column_piechart1)){
+  print("You have not selected Olink Statistics")
+} else {
+  cat("Protein statics of the dataset using relevant features from NPX data.")
+  params$column_piechart1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Data Comparison</h4>")
+if(is.null(params$df_msg_FS1)){
+  print("NPX and Meta comparison when File Select/Test Data")
+} else {
+  message <- params$df_msg_FS1
+  styled_message <- paste0("<p style='color: red; font-style: italic;'>", message, "</p>")
+  HTML(styled_message)
+}
+```
+
+
+```{r, warning=FALSE}
+HTML("<h4>Data Comparison</h4>")
+if(is.null(params$df_msg_FI1)){
+  print("NPX and Meta comparison when File import")
+} else {
+  message <- params$df_msg_FI1
+  styled_message <- paste0("<p style='color: red; font-style: italic;'>", message, "</p>")
+  HTML(styled_message)
+}
+```
+
+### Data Check
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #3498db;'>
+       <p>Data check is a mandatory step after importing the dataset. It includes the following features:</p>
+       <ul>
+         <li><strong>Data QC</strong> - User can select multiple panels and can perform QC analysis using plots. Note selecting panel is mandatory for downstream analysis.</li>
+         <li><strong>Data Filtration</strong> - User can filter the data based on the QC analysis. Note its not a mandatory step.</li>
+       </ul>      
+     </div>")
+```
+```{r, warning=FALSE}
+HTML("<h4>Scatter Plot</h4>")
+if(is.null(params$qcPlot1)){
+  print("You have not selected Data Check")
+} else {
+  cat("A plot of interquartile range (IQR) vs median for all samples for each panel.")
+  ggplotly(params$qcPlot1)
+}
+```
+```{r, warning=FALSE}
+HTML("<h4>QC warning failed samples per panel</h4>")
+if(is.null(params$failed_samples)){
+  print("No failed samples OR No QC warning found in your data.")
+} else {
+  HTML(toString(params$failed_samples))
+}
+```
+```{r, warning=FALSE}
+HTML("<h4>Frequency Distribution</h4>")
+if(is.null(params$qcPlot2)){
+  print("You have not selected Data Check")
+} else {
+  cat("Frequency distribution boxplots of NPX vs SampleID.")
+  params$qcPlot2
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Outlier</h4>")
+if(is.null(params$qcPlot3)){
+  print("You have not selected Data Check")
+} else {
+  cat("Principal component analysis (PCA) projection of all samples from NPX data along two principal components.")
+  params$qcPlot3
+}
+```
+
+### Missing Values
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #3498db;'>
+       <p>Too many missing values will cause difficulties for downstream analysis. Missingness can be caused by removing QC and Assay warning.There are several different methods for this purpose. User can use the following features:</p>
+       <ul>
+         <li> <strong>Step1.</strong> Check missigness in your dataset.</li>
+         <li> <strong>Step2.</strong> User can remove proteins by giving a threshold of missigness percentage.Use Sample missigness for details.Note its not a mandatory step.</li>
+         <li> <strong>Step3.</strong> User can impute the remaining missing values by using <strong>LOD, mean, median, min</strong> methods.Note its not a mandatory step.</li>
+       </ul>      
+     </div>")
+
+```
+
+```{r, warning=FALSE}
+if(is.null(params$missingValuePlots1)){
+  print("You have not selected Missing values")
+} else {
+  cat("Shows protein missingness across sample. This graph represents sample counts showing protein missingness by missingness range.")
+  params$missingValuePlots1
+}
+```
+```{r, warning=FALSE}
+if(is.null(params$missingValuePlots2)){
+  print("You have not selected Missing values")
+} else {
+  cat("Shows sample missingness across protien. This graph represents protein counts showing sample missingness by missingness range.")
+  params$missingValuePlots2
+}
+```
+
+### Outlier Detection
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #3498db;'>
+       <p>Outlier detection is a crucial step in data analysis to identify extreme or unusual data points that can significantly affect the results. There are several different methods for this purpose. User can use the following features:</p>
+       <ul>
+         <li>User can detect oultier by using <strong>IQR, PCA, Cook's Distance</strong> methods. Note its not a mandatory step.</li>
+       </ul>      
+     </div>")
+```
+```{r, warning=FALSE}
+if(is.null(params$outlierDetection1)){
+  print("You have not selected Outlier Detection")
+} else {
+  cat("Outlier detection(samples) across protein using IQR, PCA and Cook's Distance.")
+  params$outlierDetection1
+}
+```
+
+### Dimension Reduction
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #3498db;'>
+   <p>The datasets can contain a large number of dimensions which can cause various issues like making computation expensive, adding noise to data, and inducing multicollinearity. The dimension reduction methods allow us to visualize data in lower dimensions so we understand the data. There are several different methods for this purpose. User can use the following features:</p>
+   <ul>
+     <li>User can detect oultier by using <strong>PCA, t-SNE, UMAP</strong> methods. Note its not a mandatory step.</li>
+     <li>User can pick metadata fields as legends <strong>(Color Variable)</strong> in the plot.</li>
+     <li>User can pick metadata fields as legends <strong>(Shape Variable)</strong> in the plot.</li>
+   </ul>      
+ </div>")
+```
+
+```{r, warning=FALSE}
+HTML("<h6>Color Variable</h6>")
+if(is.null(params$dimRed_color_var)){
+  print("You have not selected Dimension Reduction")
+} else {
+  print(params$dimRed_color_var)
+}
+
+HTML("<h6>Shape Variable</h6>")
+if(is.null(params$dimRed_shape_var)){
+  print("You have not selected Dimension Reduction")
+} else {
+  print(params$dimRed_shape_var)
+}
+```
+```{r, warning=FALSE}
+if(is.null(params$dimRedPlots1)){
+  print("You have not selected Dimension Reduction")
+} else {
+  cat("Dimension reduction plots using PCA, t-SNE and UMAP methods.")
+  params$dimRedPlots1
+}
+```
+
+
+### Clustering
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+  <h2>Heirarchical clustering</h2>
+  <p>Heirarchical clustering is performed using the <i>hclust</i> function in R. It uses 2 parameters - distance method and agglomeration method.</p>
+  </div>")
+```
+
+
+```{r, warning=FALSE}
+HTML("<h6>Distance method</h6>")
+if(is.null(params$hclust_distMethod)){
+  print("You have not selected Clustering")
+} else {
+  print(params$hclust_distMethod)
+}
+
+HTML("<h6>Agglomeration method</h6>")
+if(is.null(params$hclust_aggMethod)){
+  print("You have not selected Clustering")
+} else {
+  print(params$hclust_aggMethod)
+}
+```
+```{r, warning=FALSE}
+if(is.null(params$hclust_plot1)){
+  print("You have not selected Clustering")
+} else {
+  cat("Distances are calculated between samples and then samples are aggregated based on the agglomeration method to generate this plot.")
+  params$hclust_plot1
+}
+```
+
+```{r, echo=FALSE, warning=FALSE}
+HTML(  "<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+  <h2>PAM (Partition around Medioids)</h2>
+  <p>PAM clustering is performed by first finding the optimal clusters using the <i>NbClust</i> package in R and then running the <i>pam</i> function. It uses 1 parameter - distance method. Only 2 distance methods - euclidean and manhattan are available in this method.</p>
+  </div>")
+```
+
+```{r, warning=FALSE}
+HTML("<h6>PAM Distance method</h6>")
+if(is.null(params$PAM_distMethod)){
+  print("You have not selected Clustering")
+} else {
+  print(params$PAM_distMethod)
+}
+```  
+```{r, warning=FALSE}
+if(is.null(params$pam_plot1)){
+  print("You have not selected Clustering")
+} else {
+  cat("First, silhoutte analysis is performed using kmeans clustering to identify the best number of clusters in a dataset. Then position around mediods clustering method is performed using the distance method chosen.")
+  params$pam_plot1
+}
+```
+
+### PCA
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+  <h2>Principal Component analysis</h2>
+             <p>PCA is performed using the <i>prcomp</i> function. It uses 3 parameters: color vector, shape vector and the principal components.This module generates the biplot and screeplot. 
+             </div>")
+```             
+```{r, warning=FALSE}
+HTML("<h6>Shape vector</h6>")
+if(is.null(params$pca_shape1)){
+  print("You have not selected Clustering")
+} else {
+  print(params$pca_shape1)
+}
+
+HTML("<h6>Color vector</h6>")
+if(is.null(params$pca_color1)){
+  print("You have not selected Clustering")
+} else {
+  print(params$pca_color1)
+}
+
+HTML("<h6>Selected first PC</h6>")
+if(is.null(params$PC_11)){
+  print("You have not selected Clustering")
+} else {
+  print(params$PC_11)
+}
+
+HTML("<h6>Selected second PC</h6>")
+if(is.null(params$PC_21)){
+  print("You have not selected Clustering")
+} else {
+  print(params$PC_21)
+}
+```
+
+```{r, warning=FALSE}
+if(is.null(params$pca_plot1)){
+  print("You have not selected PCA")
+} else {
+  cat("Principal component analysis is performed for all the data points in the dataset. The shape and color vectors are chosen based on the metadata fields to be highlighted in the plot. Different principal components can be viewed in the plot ( PC1 to PC5).")
+  params$pca_plot1
+}
+```
+```{r, warning=FALSE}
+if(is.null(params$scree_plot1)){
+  print("You have not selected PCA")
+} else {
+  cat("This plot displays the percentage variance across multiple principal components.")
+  params$scree_plot1
+}
+```
+
+### Heatmap
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+  <h2>Heatmap</h2>
+  <p>This module provides a method to visualize proteins across multiple groups and cluster them. The user chooses a group or multiple groups and clustering method to plot a heatmap.</p>
+  </div>")
+``` 
+```{r, warning=FALSE}
+HTML("<h6>Selected group</h6>")
+if(is.null(params$heatmapgroups1)){
+  print("You have not selected heatmap in EDA")
+} else {
+  print(params$heatmapgroups1)
+}
+HTML("<h6>Selected an option for clustering</h6>")
+if(is.null(params$heatmap_clust1)){
+  print("You have not selected heatmap in EDA")
+} else {
+  print(params$heatmap_clust1)
+}
+``` 
+```{r, warning=FALSE}
+if(is.null(params$heatmap1_eda1)){
+  print("You have not selected heatmap in EDA")
+} else {
+  cat("This heatmap shows an overview of all samples annotated based on the metadata field chosen. Sample and Protein clustering is performed to identify clusters within the dataset.")
+  params$heatmap1_eda1
+}
+```
+
+
+### Boxplot
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+  <h2>Boxplot</h2>
+  <p>Boxplots provide an easy way of viewing the NPX values for each protein across various groups. It uses 2 inputs - Group and Protein </p>
+  </div>")
+```
+```{r, warning=FALSE}
+HTML("<h6>Selected Protein</h6>")
+if(is.null(params$box_genenames1)){
+  print("You have not selected heatmap in EDA")
+} else {
+  print(params$box_genenames1)
+}
+HTML("<h6>Selected Group</h6>")
+if(is.null(params$box_group1)){
+  print("You have not selected heatmap in EDA")
+} else {
+  print(params$box_group1)
+}
+``` 
+```{r, warning=FALSE}
+if(is.null(params$box_plot1)){
+  print("You have not selected Boxplot")
+} else {
+  cat("The boxplot displays the NPX values across the condition chosen for a particular UniProt protein ID.")
+  params$box_plot1
+}
+```
+
+### Correlation
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+  <h2>Correlation</h2>
+  <p>checking the correlation between overlapping analytes or proteins, and then selecting one for statistical analysis. Olink data has high correlations (0.73–0.97), but absolute values are not the same between panels.</p>
+  </div>")
+```
+```{r, warning=FALSE}
+if(is.null(params$corel_plot1)){
+  print("You have not selected Boxplot")
+} else {
+  cat("The correlation plot shows the correlation between 2 numeric fields in the metadata. For example, it can display the correlation between any 2 proteins' NPX values across all samples.")
+  params$corel_plot1
+}
+```
+
+### Univariate Analysis
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #3498db;'>
+       <p>Univariate Analysis:</p>
+       <ul>
+         <li><strong>T-Test</strong> - Statistical test used to compare the means of two independent groups to determine if there is a significant difference between them.</li>
+         <li><strong>ANOVA (Analysis of Variance)</strong> - Statistical method used to compare means across multiple groups to determine if there are significant differences between them.</li>
+         <li><strong>Mann-Whitney U Test</strong> - It is also known as the Wilcoxon rank-sum test, is a non-parametric statistical test used to compare the distributions of two independent groups.</li>
+       </ul>      
+     </div>")
+```
+
+```{r, warning=FALSE}
+HTML("<h6>Comparision variable</h6>")
+if(is.null(params$ttest_comparison_variable1)){
+  print("You have not selected Univariate Analysis T-Test")
+} else {
+  params$ttest_comparison_variable1
+}
+HTML("<h6>Type of T-Test</h6>")
+if(is.null(params$ttest_pair_id1)){
+  print("You have not selected Univariate Analysis T-Test")
+} else {
+  params$ttest_pair_id1
+}
+HTML("<h6>Case</h6>")
+if(is.null(params$ttest_condition11)){
+  print("You have not selected Univariate Analysis T-Test")
+} else {
+  params$ttest_condition11
+}
+HTML("<h6>Control</h6>")
+if(is.null(params$ttest_condition21)){
+  print("You have not selected Univariate Analysis T-Test")
+} else {
+  params$ttest_condition21
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>T-Test</h4>")
+if(is.null(params$heatmap_ttest1)){
+  print("You have not selected Univariate Analysis T-Test")
+} else {
+  cat("The olink_heatmap_plot function generates a heatmap for all samples and proteins using pheatmap::pheatmap. By default the heatmap center and scaled NPX across all proteins and cluster samples and proteins using a dendrogram. Unique sample names are required.")
+  params$heatmap_ttest1
+}
+```
+```{r, warning=FALSE}
+if(is.null(params$volcanoplt_ttest1)){
+  print("You have not selected Univariate Analysis T-Test")
+} else {
+  cat("The olink_volcano_plot function generates a volcano plot using results from the olink_ttest function using the function ggplot and geom_point of the R library ggplot2. The estimated difference is shown in the x-axis and -log10(p-value) in the y-axis. A horizontal dotted line indicates p-value = 0.05. Dots are colored based on Benjamini-Hochberg adjusted p-value cutoff 0.05 and can optionally be annotated by OlinkID.")
+  params$volcanoplt_ttest1
+}
+```
+```{r, warning=FALSE}
+if(is.null(params$bxplt1_ttest1)){
+  print("You have not selected Univariate Analysis T-Test")
+} else {
+  cat("The olink_boxplot function is used to generate boxplots of NPX values stratified on a variable for a given list of proteins. olink_boxplot uses the functions ggplot and geom_boxplot of the R library ggplot2.")
+  params$bxplt1_ttest1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>ANOVA</h4>")
+HTML("<h6>Comparision variable 1</h6>")
+if(is.null(params$anova_comparison_variable1)){
+  print("You have not selected Univariate Analysis ANOVA")
+} else {
+  params$anova_comparison_variable1
+}
+HTML("<h6>Comparision variable 2</h6>")
+if(is.null(params$anova_comparison_variable2)){
+  print("You have not selected Univariate Analysis ANOVA")
+} else {
+  params$anova_comparison_variable2
+}
+HTML("<h6>Covariate variable</h6>")
+if(is.null(params$anova_covariate)){
+  print("You have not selected Univariate Analysis ANOVA")
+} else {
+  params$anova_covariate
+}
+HTML("<h6>Pair ID variable</h6>")
+if(is.null(params$anova_pair_id)){
+  print("You have not selected Univariate Analysis ANOVA")
+} else {
+  params$anova_pair_id
+}
+
+if(is.null(params$heatmap_Anova1)){
+  print("You have not selected Univariate Analysis ANOVA")
+} else {
+  params$heatmap_Anova1
+}
+```
+
+```{r, warning=FALSE}
+if(is.null(params$anovabxplt1_an)){
+  print("You have not selected Univariate Analysis ANOVA")
+} else {
+  params$anovabxplt1_an
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Mann-Whitney U Test</h4>")
+HTML("<h6>Type</h6>")
+if(is.null(params$type_of_mwu_test1)){
+  print("You have not selected Univariate Analysis Mann-Whitney U Test")
+} else {
+  params$type_of_mwu_test1
+}
+HTML("<h6>Comparision variable</h6>")
+if(is.null(params$mwut_comparison_variable)){
+  print("You have not selected Univariate Analysis Mann-Whitney U Test")
+} else {
+  params$mwut_comparison_variable
+}
+HTML("<h6>Pair id</h6>")
+if(is.null(params$mwut_pair_id)){
+  print("You have not selected Univariate Analysis Mann-Whitney U Test")
+} else {
+  params$mwut_pair_id
+}
+HTML("<h6>Case</h6>")
+if(is.null(params$mwut_condition1)){
+  print("You have not selected Univariate Analysis Mann-Whitney U Test")
+} else {
+  params$mwut_condition1
+}
+HTML("<h6>Control</h6>")
+if(is.null(params$mwut_condition2)){
+  print("You have not selected Univariate Analysis Mann-Whitney U Test")
+} else {
+  params$mwut_condition2
+}
+
+if(is.null(params$heatmap_mwutest1)){
+  print("You have not selected Univariate Analysis Mann-Whitney U Test")
+} else {
+  params$heatmap_mwutest1
+}
+```
+
+```{r, warning=FALSE}
+if(is.null(params$mwutbxplt1_mwut)){
+  print("You have not selected Univariate Analysis Mann-Whitney U Test")
+} else {
+  params$mwutbxplt1_mwut
+}
+```
+
+### Time course analysis
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+               <h2> Time course analysis </h2>
+                <p>Time course analysis is performed using the <i>lmer</i> function from OlinkAnalyze package. The following are the parameters to be used: </p>
+                <li>variable: the variable of interest for performing time course analysis</li>
+                <li>random: variable that generates random effect </li>
+                <li>covariates: Other covariates to consider (optional) </li>
+                </div>")
+```
+```{r, warning=FALSE}
+HTML("<h6>Selected Time variable</h6>")
+if(is.null(params$tca_var1)){
+  print("You have not selected Time Course Analysis")
+} else {
+  params$tca_var1
+}
+HTML("<h6>Selected Random variable</h6>")
+if(is.null(params$tca_rand1)){
+  print("You have not selected Time Course Analysis")
+} else {
+  params$tca_rand1
+}
+HTML("<h6>Selected Covariates</h6>")
+if(is.null(params$tca_cov1)){
+  print("You have not selected Time Course Analysis")
+} else {
+  params$tca_cov1
+}
+```
+```{r, warning=FALSE}
+HTML("<h4>Time Course Analysis</h4>")
+if(is.null(params$lmer_plot1)){
+  print("You have not selected Time Course Analysis")
+} else {
+  params$lmer_plot1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Time Course Analysis - Post hoc results</h4>")
+if(is.null(params$tca_heatmap1)){
+  print("You have not selected Time Course Analysis - Post hoc results")
+} else {
+  cat("This heatmap represents the contrasts that are significant in lmer posthoc analysis.")
+  params$tca_heatmap1
+}
+```
+
+### Machine Learning
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+                             <h2> Partial Least Squares</h2>
+         <p>PLS is a supervised machine learning algorithm can be used of regression as well classification tasks. The main objective of this algorithm is to find latent variables (components) that capture the maximum covariance between the predictor variables and the class labels. In the current implementation, PLS is first tuned to identify the best parameter - <i>ncomp</i>. Optimal features are selected using sbf ( selection by filtering ) using pls as the model. The best parameter and features are used for training the final model.</p></div>")
+```
+```{r, warning=FALSE}
+HTML("<h6>Selected variable for classification</h6>")
+if(is.null(params$pls_column1)){
+  print("You have not selected Time Course Analysis")
+} else {
+  params$pls_column1
+}
+HTML("<h6>Train percentage</h6>")
+if(is.null(params$pls_perc1)){
+  print("You have not selected Time Course Analysis")
+} else {
+  params$pls_perc1
+}
+HTML("<h6>Selected feature selection method</h6>")
+if(is.null(params$pls_fsel1)){
+  print("You have not selected Time Course Analysis")
+} else {
+  params$pls_fsel1
+}
+```
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$pls_text1)){
+  print("You have not selected PLS")
+} else {
+  params$pls_text1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$pls_cm_plot1)){
+  print("You have not selected PLS")
+} else {
+  params$pls_cm_plot1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>ROC</h4>")
+if(is.null(params$pls_roc1)){
+  print("You have not selected PLS")
+} else {
+  params$pls_roc1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Feature Importance</h4>")
+if(is.null(params$pls_imp1)){
+  print("You have not selected PLS")
+} else {
+  params$pls_imp1
+}
+```
+
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+                             <h2> Sparse Partial Least Squares </h2>
+         <p>SPLS is a supervised machine learning algorithm can be used of regression as well classification tasks. SPLS-DA aims to find a linear combination of the predictors that best discriminates between different classes while also promoting sparsity, meaning it selects only a subset of the predictors that are most relevant for classification. In the current implementation, first optimal features are selected using sbf ( selection by filtering ) using pls as the model. With the selected feature SPLS is fine tune to get the best parameter. The best parameter and features are used for training the final model.</p></div>")
+```
+
+```{r, warning=FALSE}
+HTML("<h6>Selected variable for classification</h6>")
+if(is.null(params$spls_column1)){
+  print("You have not selected Time Course Analysis")
+} else {
+  params$spls_column1
+}
+HTML("<h6>Train percentage</h6>")
+if(is.null(params$spls_perc1)){
+  print("You have not selected Time Course Analysis")
+} else {
+  params$spls_perc1
+}
+HTML("<h6>Selected feature selection method</h6>")
+if(is.null(params$spls_fsel1)){
+  print("You have not selected Time Course Analysis")
+} else {
+  params$spls_fsel1
+}
+```
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$spls_text1)){
+  print("You have not selected SPLS")
+} else {
+  params$spls_text1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$spls_cm_plot1)){
+  print("You have not selected SPLS")
+} else {
+  params$spls_cm_plot1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>ROC</h4>")
+if(is.null(params$spls_roc1)){
+  print("You have not selected SPLS")
+} else {
+  params$spls_roc1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Feature Importance</h4>")
+if(is.null(params$spls_imp1)){
+  print("You have not selected SPLS")
+} else {
+  params$spls_imp1
+}
+```
+
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+                             <h2> Generalised Linear Mixed Effects Models </h2>
+         <p>GLMMs are a type of statistical model used for analyzing grouped or clustered data, where observations are not independent but are instead nested within groups or clusters. GLMMs extend the framework of Generalized Linear Models (GLMs) by incorporating random effects, which account for the correlation structure within groups. In the current implementation, first optimal features are selected using sbf ( selection by filtering ) using glm as the model. The selected features are used for training the glmer final model.</p></div>")
+```
+
+```{r, warning=FALSE}
+HTML("<h6>Selected variable for classification</h6>")
+if(is.null(params$glmm_column1)){
+  print("You have not selected GLMM")
+} else {
+  params$glmm_column1
+}
+HTML("<h6>Train percentage</h6>")
+if(is.null(params$glmm_perc1)){
+  print("You have not selected GLMM")
+} else {
+  params$glmm_perc1
+}
+HTML("<h6>Selected feature selection method</h6>")
+if(is.null(params$glmm_fsel1)){
+  print("You have not selected GLMM")
+} else {
+  params$glmm_fsel1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$glmm_text1)){
+  print("You have not selected GLMM")
+} else {
+  params$glmm_text1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$glmm_cm_plot1)){
+  print("You have not selected GLMM")
+} else {
+  params$glmm_cm_plot1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>ROC</h4>")
+if(is.null(params$glmm_roc1)){
+  print("You have not selected GLMM")
+} else {
+  params$glmm_roc1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Feature Importance</h4>")
+if(is.null(params$glmm_imp1)){
+  print("You have not selected GLMM")
+} else {
+  params$glmm_imp1
+}
+```
+
+
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+                             <h2> K-Nearest Neighbors </h2>
+         <p>KNN is a supervised machine learning algorithm can be used of regression as well classification tasks. The primary principle behind KNN is to predict the class of a data point by considering the majority class of its neighboring data points. In the current implementation, KNN is first tuned to identify the best parameter - <i>k</i>. Optimal features are selected using sbf ( selection by filtering ) using knn as the model. The best parameter and features are used for training the final model.</p></div>")
+```
+```{r, warning=FALSE}
+HTML("<h6>Selected variable for classification</h6>")
+if(is.null(params$knn_column1)){
+  print("You have not selected KNN")
+} else {
+  params$knn_column1
+}
+HTML("<h6>Train percentage</h6>")
+if(is.null(params$knn_perc1)){
+  print("You have not selected KNN")
+} else {
+  params$knn_perc1
+}
+HTML("<h6>Selected feature selection method</h6>")
+if(is.null(params$knn_fsel1)){
+  print("You have not selected KNN")
+} else {
+  params$knn_fsel1
+}
+```
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$knn_text1)){
+  print("You have not selected GLMM")
+} else {
+  params$knn_text1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$knn_cm_plot1)){
+  print("You have not selected GLMM")
+} else {
+  params$knn_cm_plot1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>ROC</h4>")
+if(is.null(params$knn_roc1)){
+  print("You have not selected GLMM")
+} else {
+  params$knn_roc1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Feature Importance</h4>")
+if(is.null(params$knn_imp1)){
+  print("You have not selected GLMM")
+} else {
+  params$knn_imp1
+}
+```
+
+
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+                             <h2> Support Vector Machine </h2>
+         <p>SVM is a supervised machine learning algorithm best suited for classification. The main objective of this algorithm is to find the optimal hyperplane in an N-dimensional space that can separate the data points in different classes in the feature space. In the current implementation, SVM is first tuned to identify best parameters - <i>Cost</i> optimal features are selected using sbf ( selection by filtering ) using svmLinear as the model. The best parameters and features are used for training the final model.</p></div>")
+```
+
+```{r, warning=FALSE}
+HTML("<h6>Selected variable for classification</h6>")
+if(is.null(params$svm_column1)){
+  print("You have not selected SVM")
+} else {
+  params$svm_column1
+}
+HTML("<h6>Train percentage</h6>")
+if(is.null(params$svm_perc1)){
+  print("You have not selected SVM")
+} else {
+  params$svm_perc1
+}
+HTML("<h6>Selected feature selection method</h6>")
+if(is.null(params$svm_fsel1)){
+  print("You have not selected SVM")
+} else {
+  params$svm_fsel1
+}
+```
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$svm_text1)){
+  print("You have not selected SVM")
+} else {
+  params$svm_text1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$svm_cm_plot1)){
+  print("You have not selected SVM")
+} else {
+  params$svm_cm_plot1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>ROC</h4>")
+if(is.null(params$svm_roc1)){
+  print("You have not selected SVM")
+} else {
+  params$svm_roc1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Feature Importance</h4>")
+if(is.null(params$svm_imp1)){
+  print("You have not selected SVM")
+} else {
+  params$svm_imp1
+}
+```
+
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+                             <h2> Random Forest </h2>
+         <p>Random Forest is an ensemble learning method that constructs decision trees during training and outputs the mode or mean of the classes. In the current implementation, the model <i> rf </i> is first tuned to identify best parameters - <i>mtry</i>, optimal features are selected using sbf ( selection by filtering ) using <i>rf</i> as the model. The best parameters and features are used for training the final model</p></div>")
+```
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$rf_text1)){
+  print("You have not selected Random Forest")
+} else {
+  params$rf_text1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$rf_cm_plot1)){
+  print("You have not selected Random Forest")
+} else {
+  params$rf_cm_plot1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>ROC</h4>")
+if(is.null(params$rf_roc1)){
+  print("You have not selected Random Forest")
+} else {
+  params$rf_roc1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Feature Importance</h4>")
+if(is.null(params$rf_imp1)){
+  print("You have not selected Random Forest")
+} else {
+  params$rf_imp1
+}
+```
+
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+                             <h2> eXtreme gradient Boosting </h2>
+         <p>XGboost is an efficient and scalable implementation of gradient boosting framework.In the current implementation, Xgboost is first tuned to identify best parameters - <i>nrounds,max_depth,eta, gamma,colsample_bytree,min_child_weight,subsample</i> optimal features are selected using sbf ( selection by filtering ) using Xgboost as the model. The best parameters and features are used for training the final model.</p></div>")
+```
+
+```{r, warning=FALSE}
+HTML("<h6>Selected variable for classification</h6>")
+if(is.null(params$xgb_column1)){
+  print("You have not selected XGB")
+} else {
+  params$xgb_column1
+}
+HTML("<h6>Train percentage</h6>")
+if(is.null(params$xgb_perc1)){
+  print("You have not selected XGB")
+} else {
+  params$xgb_perc1
+}
+HTML("<h6>Selected feature selection method</h6>")
+if(is.null(params$xgb_fsel1)){
+  print("You have not selected XGB")
+} else {
+  params$xgb_fsel1
+}
+```
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$xgb_text1)){
+  print("You have not selected XGBoost")
+} else {
+  params$xgb_text1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Model Metrics</h4>")
+if(is.null(params$xgb_cm_plot1)){
+  print("You have not selected XGBoost")
+} else {
+  params$xgb_cm_plot1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>ROC</h4>")
+if(is.null(params$xgb_roc1)){
+  print("You have not selected XGBoost")
+} else {
+  params$xgb_roc1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Feature Importance</h4>")
+if(is.null(params$xgb_imp1)){
+  print("You have not selected XGBoost")
+} else {
+  params$xgb_imp1
+}
+```
+
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+                             <h2> Comparitive analysis between models </h2>
+                             <p> This step compares all models run by the user using the following metrics: ROC, Accuracy, Sensitivity, Specificity </p>
+                             </div>")
+```
+```{r, warning=FALSE}
+HTML("<h4>Comparitive analysis between models</h4>")
+if(is.null(params$dot_plot1)){
+  print("You have not selected Comparitive analysis between models")
+} else {
+  params$dot_plot1
+}
+```
+
+```{r, warning=FALSE}
+HTML("<h4>Comparitive analysis between models</h4>")
+if(is.null(params$bw_plot1)){
+  print("You have not selected Comparitive analysis between models")
+} else {
+  params$bw_plot1
+}
+```
+
+### Gene Set Enrichment Analysis
+```{r, echo=FALSE, warning=FALSE}
+HTML("<div style='background-color: #f0f0f0; padding: 10px; border-radius: 5px; border: 1px solid #34dbd3;'>
+                             <h2> Gene Set Enrichment Analysis </h2>
+         <p>Gene set enrichment can be performed on the results obtained from ttest, ANOVA, Man whitney test, Machine learning models to identify the pathways/genesets enriched in the samples. Current implementation supports all MSigDB genesets ( Molecular signature database).Alternately, custom genesets can be uploaded.</p></div>")
+```
+```{r, warning=FALSE}
+HTML("<h4>Gene set enrichment - Dot Plot</h4>")
+if(is.null(params$dotplot_GSEA1)){
+  print("You have not selected Gene set enrichment")
+} else {
+  cat("This plot displays the Gene Ratio for significant pathways chosen based on adjusted pvalue. The size of the dot represents the number of genes overlapping with a particular geneset.")
+  params$dotplot_GSEA1
+}
+```
+```{r, warning=FALSE}
+HTML("<h4>Gene set enrichment - Ridge Plot</h4>")
+if(is.null(params$ridgeplot_GSEA1)){
+  print("You have not selected Gene set enrichment")
+} else {
+  cat("This plot displays the enrichment score distribution for significant pathways chosen based on adjusted pvalue.")
+  params$ridgeplot_GSEA1
+}
+```

@@ -1,0 +1,9 @@
+###****************###
+********###********###
+Do not delete this text
+###****************###
+********###********###
+This folder is to save the generated plots inside this ./plots folder.
+In the backend, script will create the temp directory based on the timestamp then it will be deleted automatically.
+
+
